@@ -518,9 +518,31 @@
   }
   .cert-note b { color: var(--ink); }
 
-  .lang-row { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; margin-top: 2.4rem; padding-top: 1.6rem; border-top: 1px dashed var(--line); }
-  .lang-row span { font-size: 0.88rem; color: var(--ink-soft); }
-  .lang-row b { color: var(--ink); font-weight: 600; }
+  /* ---------- Languages ---------- */
+  .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .lang-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
+    padding: 1.2rem 1.3rem;
+    display: flex; flex-direction: column; gap: 0.65rem;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .lang-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow); }
+  .lang-card.native { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--bg-raised) 60%); }
+  .lang-top { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .lang-card h3 { font-size: 1.05rem; font-weight: 700; }
+  .lang-badge {
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 0.24rem 0.55rem; border-radius: 3px; white-space: nowrap;
+  }
+  .lvl { display: flex; gap: 5px; }
+  .lvl i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .lvl i.on { background: var(--accent); }
+  .lang-card .lang-level {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
 
   /* ---------- Contact ---------- */
   .contact { text-align: left; }
@@ -576,6 +598,7 @@
     <li><a href="#leadership">Leadership</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#languages">Languages</a></li>
     <li><a href="#certs">Certifications</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -1026,13 +1049,47 @@
           </div>
         </div>
       </div>
-      <div class="lang-row rv">
-        <span><b>English</b> · Proficient</span>
-        <span><b>Hindi</b> · Proficient</span>
-        <span><b>Marathi</b> · Proficient</span>
-        <span><b>Sanskrit</b> · Proficient</span>
-        <span><b>Kannada</b> · Intermediate</span>
-        <span><b>Gujarati</b> · Intermediate</span>
+    </div>
+  </section>
+
+  <!-- ================= LANGUAGES ================= -->
+  <section id="languages">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="sec-eyebrow">Languages</span>
+        <h2>Communicating across six languages</h2>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-card native rv">
+          <div class="lang-top"><h3>Marathi</h3><span class="lang-badge">Mother Tongue</span></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          <span class="lang-level">Native</span>
+        </div>
+        <div class="lang-card rv">
+          <div class="lang-top"><h3>English</h3></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+          <span class="lang-level">Proficient</span>
+        </div>
+        <div class="lang-card rv">
+          <div class="lang-top"><h3>Hindi</h3></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+          <span class="lang-level">Proficient</span>
+        </div>
+        <div class="lang-card rv">
+          <div class="lang-top"><h3>Sanskrit</h3></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+          <span class="lang-level">Proficient</span>
+        </div>
+        <div class="lang-card rv">
+          <div class="lang-top"><h3>Kannada</h3></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <span class="lang-level">Intermediate</span>
+        </div>
+        <div class="lang-card rv">
+          <div class="lang-top"><h3>Gujarati</h3></div>
+          <div class="lvl" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <span class="lang-level">Intermediate</span>
+        </div>
       </div>
     </div>
   </section>
