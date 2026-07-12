@@ -28,6 +28,7 @@
     --teal: #177264;
     --teal-soft: rgba(23, 114, 100, 0.10);
     --glow: rgba(216, 68, 46, 0.18);
+    --grid: rgba(20, 29, 36, 0.05);
     --shadow: 0 1px 2px rgba(20, 29, 36, 0.05), 0 8px 28px rgba(20, 29, 36, 0.07);
   }
   @media (prefers-color-scheme: dark) {
@@ -44,6 +45,7 @@
       --teal: #4fc0ab;
       --teal-soft: rgba(79, 192, 171, 0.10);
       --glow: rgba(255, 106, 82, 0.14);
+    --grid: rgba(232, 237, 240, 0.045);
       --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 32px rgba(0, 0, 0, 0.45);
     }
   }
@@ -60,6 +62,7 @@
     --teal: #4fc0ab;
     --teal-soft: rgba(79, 192, 171, 0.10);
     --glow: rgba(255, 106, 82, 0.14);
+    --grid: rgba(232, 237, 240, 0.045);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 32px rgba(0, 0, 0, 0.45);
   }
   :root[data-theme="light"] {
@@ -75,6 +78,7 @@
     --teal: #177264;
     --teal-soft: rgba(23, 114, 100, 0.10);
     --glow: rgba(216, 68, 46, 0.18);
+    --grid: rgba(20, 29, 36, 0.05);
     --shadow: 0 1px 2px rgba(20, 29, 36, 0.05), 0 8px 28px rgba(20, 29, 36, 0.07);
   }
 
@@ -86,7 +90,11 @@
   }
 
   body {
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 42px 42px;
     color: var(--ink);
     font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16.5px;
@@ -140,7 +148,7 @@
     font-size: 0.8rem; font-weight: 500;
     letter-spacing: 0.05em; text-transform: uppercase;
     text-decoration: none; color: var(--ink-soft);
-    border-radius: 999px; white-space: nowrap;
+    border-radius: 2px; white-space: nowrap;
     transition: color 0.2s, background 0.2s;
   }
   .nav-links a:hover { color: var(--ink); }
@@ -263,7 +271,7 @@
     display: inline-flex; align-items: center; gap: 0.5rem;
     padding: 0.72rem 1.4rem;
     font-size: 0.88rem; font-weight: 600; letter-spacing: 0.03em;
-    text-decoration: none; border-radius: 4px;
+    text-decoration: none; border-radius: 2px;
     border: 1px solid transparent;
     transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
   }
@@ -317,10 +325,30 @@
   @keyframes tape { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .tape-track { animation: none; } }
 
+  /* ECG pulse divider */
+  .ecg { max-width: 1060px; margin: 0 auto; padding: 2.8rem clamp(1.2rem, 4vw, 3rem) 0; }
+  .ecg svg { display: block; width: 100%; height: 34px; overflow: visible; }
+  .ecg path {
+    fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round;
+    stroke-dasharray: 1400; stroke-dashoffset: 1400;
+    animation: ecgdraw 4.5s linear infinite;
+  }
+  @keyframes ecgdraw {
+    0% { stroke-dashoffset: 1400; opacity: 1; }
+    62% { stroke-dashoffset: 0; opacity: 1; }
+    82% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ecg path { animation: none; stroke-dashoffset: 0; } }
+
   /* ---------- Sections ---------- */
   section { padding: 4.5rem clamp(1.2rem, 4vw, 3rem); }
   .wrap { max-width: 1060px; margin: 0 auto; }
-  .sec-head { margin-bottom: 2.4rem; }
+  .sec-head {
+    margin-bottom: 2.2rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1rem;
+  }
   .sec-eyebrow {
     font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
@@ -331,6 +359,11 @@
     font-size: clamp(1.7rem, 3.4vw, 2.4rem);
     font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
     text-wrap: balance;
+  }
+  .sec-head h2 em, .contact h2 em {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic; font-weight: 500; letter-spacing: 0;
+    color: var(--accent);
   }
   .sec-alt { background: var(--bg-inset); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 
@@ -346,7 +379,7 @@
   .about-grid p strong { color: var(--ink); }
   .edu-card {
     background: var(--bg-raised); border: 1px solid var(--line);
-    border-radius: 8px; padding: 1.4rem; box-shadow: var(--shadow);
+    border-radius: 2px; padding: 1.4rem; box-shadow: var(--shadow);
   }
   .edu-card h3 { font-size: 1rem; margin-bottom: 0.2rem; }
   .edu-card .mono { font-size: 0.75rem; color: var(--ink-faint); }
@@ -377,13 +410,31 @@
   .ip-ledger .stat { background: var(--bg); }
   .ip-ledger .stat b.alt { color: var(--teal); }
   .patent-band {
+    position: relative;
     background: var(--bg-raised);
     border: 1px solid var(--line);
     border-left: 4px solid var(--accent);
-    border-radius: 8px;
+    border-radius: 2px;
     padding: 1.8rem;
-    box-shadow: var(--shadow);
+    box-shadow: 6px 6px 0 var(--accent-soft);
     margin-bottom: 1.5rem;
+  }
+  .stamp {
+    position: absolute; top: 1.1rem; right: 1.1rem;
+    transform: rotate(5deg);
+    border: 2px solid var(--accent); border-radius: 2px;
+    outline: 1px solid var(--accent); outline-offset: 2.5px;
+    padding: 0.3rem 0.65rem;
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); opacity: 0.9;
+    pointer-events: none;
+  }
+  .patent-band.teal .stamp { border-color: var(--teal); outline-color: var(--teal); color: var(--teal); transform: rotate(-4deg); }
+  .patent-band h3 { padding-right: 9rem; }
+  @media (max-width: 600px) {
+    .stamp { position: static; display: inline-block; margin-bottom: 0.7rem; transform: rotate(-2deg); }
+    .patent-band h3 { padding-right: 0; }
   }
   .patent-band.teal { border-left-color: var(--teal); }
   .patent-band h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
@@ -399,27 +450,40 @@
   .ip-points { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; }
   .ip-points li {
     list-style: none; padding: 1rem 1.2rem;
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px;
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 2px;
     font-size: 0.92rem; color: var(--ink-soft);
   }
   .ip-points li b { color: var(--ink); display: block; margin-bottom: 0.2rem; }
 
-  /* ---------- Projects ---------- */
-  .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.2rem; }
-  .proj {
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
-    padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  /* ---------- Projects: research index ledger ---------- */
+  .proj-index { list-style: none; border-top: 1px solid var(--line); }
+  .proj-index li {
+    display: grid; grid-template-columns: 70px 1fr 200px; gap: 1.5rem;
+    padding: 1.4rem 0.5rem 1.4rem 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+    transition: background 0.2s;
   }
-  .proj:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
-  .proj-id {
-    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    font-size: 0.68rem; letter-spacing: 0.12em; color: var(--ink-faint); text-transform: uppercase;
+  .proj-index li:hover { background: var(--accent-soft); }
+  .pi-num {
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    color: var(--ink-faint); padding-top: 0.4rem;
   }
-  .proj h3 { font-size: 1.06rem; font-weight: 700; line-height: 1.3; }
-  .proj p { font-size: 0.9rem; color: var(--ink-soft); flex: 1; }
-  .proj .patent-tags { margin-top: 0.2rem; }
-  .proj.flagship { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--bg-raised) 55%); }
+  .proj-index h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .proj-index p { font-size: 0.9rem; color: var(--ink-soft); max-width: 58ch; }
+  .pi-tags {
+    font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal); text-align: right; padding-top: 0.45rem; line-height: 1.9;
+  }
+  .proj-index li.flagship {
+    border-left: 3px solid var(--accent); padding-left: 1rem;
+    background: linear-gradient(90deg, var(--accent-soft), transparent 60%);
+  }
+  .proj-index li.flagship .pi-num, .proj-index li.flagship .pi-tags { color: var(--accent); }
+  @media (max-width: 780px) {
+    .proj-index li { grid-template-columns: 1fr; gap: 0.45rem; padding: 1.2rem 0.3rem 1.2rem 0; }
+    .pi-num, .pi-tags { padding-top: 0; text-align: left; }
+  }
 
   /* ---------- Leadership timeline ---------- */
   .timeline { position: relative; padding-left: 1.6rem; }
@@ -443,20 +507,29 @@
 
   .ev-strip {
     margin-bottom: 2.6rem; padding: 1.3rem 1.4rem;
-    border: 1px dashed var(--line); border-radius: 8px;
+    border: 1px dashed var(--line); border-radius: 2px;
     background: var(--bg-raised);
   }
   .ev-strip .cert-track { margin: 0 0 0.8rem; }
 
   /* ---------- Awards ---------- */
-  .award-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 0.9rem; }
+  .award-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 0 2.8rem; counter-reset: aw;
+    border-top: 1px solid var(--line);
+  }
   .award {
-    display: flex; gap: 0.8rem; align-items: flex-start;
-    padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 6px;
-    background: var(--bg-raised); font-size: 0.92rem;
+    display: flex; gap: 1rem; align-items: baseline;
+    padding: 0.9rem 0.2rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
   }
   .award::before {
-    content: "◆"; color: var(--accent); font-size: 0.7rem; line-height: 1.9; flex-shrink: 0;
+    counter-increment: aw;
+    content: counter(aw, decimal-leading-zero);
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); flex-shrink: 0;
   }
   .award b { display: block; font-size: 0.95rem; }
   .award span { color: var(--ink-faint); font-size: 0.82rem; }
@@ -464,7 +537,7 @@
   /* ---------- Grants ---------- */
   .grant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.6rem; }
   .grant {
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 2px;
     padding: 2rem 1.8rem; box-shadow: var(--shadow);
     border-top: 4px solid var(--teal);
   }
@@ -481,7 +554,7 @@
   .grant p { font-size: 0.9rem; color: var(--ink-soft); }
   .fellow-note {
     padding: 1.4rem 1.6rem; border-left: 3px solid var(--teal);
-    background: var(--teal-soft); border-radius: 0 6px 6px 0;
+    background: var(--teal-soft); border-radius: 0 2px 2px 0;
     color: var(--ink-soft); font-size: 0.95rem; max-width: 72ch;
   }
   .fellow-note b { color: var(--ink); }
@@ -502,7 +575,7 @@
   .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
   .chip {
     font-size: 0.82rem; padding: 0.32rem 0.75rem;
-    border: 1px solid var(--line); border-radius: 999px;
+    border: 1px solid var(--line); border-radius: 2px;
     background: var(--bg-raised); color: var(--ink-soft);
     transition: border-color 0.2s, color 0.2s;
   }
@@ -512,7 +585,7 @@
   /* ---------- Certifications ---------- */
   .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.2rem; }
   .cert-card {
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 2px;
     padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
   }
   .cert-card header { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; }
@@ -538,12 +611,12 @@
   /* ---------- Languages ---------- */
   .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 1rem; }
   .lang-card {
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 2px;
     padding: 1.2rem 1.3rem;
     display: flex; flex-direction: column; gap: 0.65rem;
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
-  .lang-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow); }
+  .lang-card:hover { border-color: var(--accent); box-shadow: 5px 5px 0 var(--accent-soft); }
   .lang-card.native { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft), var(--bg-raised) 60%); }
   .lang-top { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
   .lang-card h3 { font-size: 1.05rem; font-weight: 700; }
@@ -579,6 +652,13 @@
     font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--ink-faint); width: 76px; flex-shrink: 0;
+  }
+  .barcode {
+    width: 92px; height: 18px; align-self: center; opacity: 0.65;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 7px, transparent 7px 9px,
+      var(--ink) 9px 10px, transparent 10px 13px);
   }
   footer {
     padding: 1.6rem clamp(1.2rem, 4vw, 3rem);
@@ -675,7 +755,7 @@
         <figcaption>Omkar Deshmukh · AI × Healthcare</figcaption>
       </figure>
       <div class="hero-text">
-        <span class="hero-eyebrow mono">Omkar Deshmukh · Bengaluru, India</span>
+        <span class="hero-eyebrow mono">Case File — Omkar Deshmukh · Bengaluru, IN</span>
         <div class="hero-display" role="heading" aria-level="1"
              aria-label="Software Engineer — Researcher, Innovator, Developer and Event Organizer">
           <span class="line type" aria-hidden="true">Software</span>
@@ -710,12 +790,20 @@
     </div>
   </div>
 
+
+  <!-- ECG divider -->
+  <div class="ecg" aria-hidden="true">
+    <svg viewBox="0 0 900 48" preserveAspectRatio="none">
+      <path d="M0 24 H300 L316 24 326 13 338 35 348 24 H520 L534 24 542 18 550 24 H700 L712 24 722 8 736 40 748 24 H900" />
+    </svg>
+  </div>
+
   <!-- ================= ABOUT ================= -->
   <section id="about">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Profile</span>
-        <h2>Research-driven engineer with a clinical focus</h2>
+        <span class="sec-eyebrow">File 01 · Profile</span>
+        <h2>Research-driven engineer with a <em>clinical</em> focus</h2>
       </div>
       <div class="about-grid">
         <div class="rv">
@@ -767,8 +855,8 @@
   <section id="research" class="sec-alt">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Research &amp; Publications</span>
-        <h2>Published work in AI and biomedical systems</h2>
+        <span class="sec-eyebrow">File 02 · Research Record — 8 Entries</span>
+        <h2>Published work in AI and <em>biomedical</em> systems</h2>
       </div>
       <div class="pub-list">
         <article class="pub rv">
@@ -842,8 +930,8 @@
   <section id="patents">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Patents &amp; Intellectual Property</span>
-        <h2>An IP portfolio in AI-powered healthcare</h2>
+        <span class="sec-eyebrow">File 03 · Intellectual Property — 7 Filed / 4 Granted</span>
+        <h2>An IP portfolio in AI-powered <em>healthcare</em></h2>
       </div>
       <div class="ip-ledger rv" role="list">
         <div class="stat" role="listitem"><b>7</b><span>Patents filed</span></div>
@@ -853,6 +941,7 @@
         <div class="stat" role="listitem"><b>₹17 Cr</b><span>IP valuation</span></div>
       </div>
       <div class="patent-band rv">
+        <span class="stamp mono">Granted ×4</span>
         <h3>Integrated 3D Bioprinting Device for Dermatological Treatment</h3>
         <p>Flagship innovation with <strong>four granted patents — two in India and two in the
         United States</strong>: an AI-integrated bioprinting device designed for dermatological
@@ -869,6 +958,7 @@
         </div>
       </div>
       <div class="patent-band teal rv">
+        <span class="stamp mono">Published</span>
         <h3>CNN Model for Facial Augmentation</h3>
         <p>Indian patent filed and published, covering a convolutional neural network model for
         facial augmentation, recognition, and treatment-oriented analysis in clinical applications.</p>
@@ -879,6 +969,7 @@
         </div>
       </div>
       <div class="patent-band teal rv">
+        <span class="stamp mono">&#169; Copyright</span>
         <h3>AI-Powered Diagnostic Model for Radiology</h3>
         <p>Granted copyright protecting an AI-powered diagnostic model for radiological assessment
         and early disease detection.</p>
@@ -901,59 +992,73 @@
   <section id="projects" class="sec-alt">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Projects</span>
-        <h2>Selected builds — from bioprinters to space robotics</h2>
+        <span class="sec-eyebrow">File 04 · Build Index — 7 Projects</span>
+        <h2>Selected builds — from <em>bioprinters</em> to space robotics</h2>
       </div>
-      <div class="proj-grid">
-        <article class="proj flagship rv">
-          <span class="proj-id">Flagship · Patented</span>
-          <h3>Automated 3D Bioprinter for Dermatology (Vitiligo)</h3>
-          <p>AI-integrated bioprinting system using CNN/U-Net architectures for skin regeneration,
-          workflow automation, and clinical decision support in vitiligo treatment.</p>
-          <div class="patent-tags"><span class="tag hot">CNN</span><span class="tag hot">U-Net</span><span class="tag">Biomedical</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Healthcare AI · Copyright granted</span>
-          <h3>AI Radiological Assessment Platform</h3>
-          <p>AI-powered healthcare platform for early disease detection and diagnostic assistance
-          from radiological imaging.</p>
-          <div class="patent-tags"><span class="tag hot">Copyright</span><span class="tag">Medical Imaging</span><span class="tag">Deep Learning</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Space · ISRO STRC 2026</span>
-          <h3>Machine Learning for Space Applications</h3>
-          <p>Built predictive machine-learning models for space applications as Team Leader of
-          Team Vidyut in the national-level ISRO STRC 2026 challenge.</p>
-          <div class="patent-tags"><span class="tag hot">STRC 2026</span><span class="tag">Predictive ML</span><span class="tag">Robotics</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Computer Vision · Patent published</span>
-          <h3>AI-Based Facial Recognition &amp; Augmentation System</h3>
-          <p>CNN-based models for facial recognition, augmentation analysis, and treatment-oriented
-          diagnostic applications.</p>
-          <div class="patent-tags"><span class="tag hot">Patent Published</span><span class="tag">CNN</span><span class="tag">Computer Vision</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Full-stack</span>
-          <h3>3D Bioprinting Web Application</h3>
-          <p>AI-assisted web application for print-path planning, imaging, and printer parameter
-          configuration.</p>
-          <div class="patent-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">REST APIs</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Web platform</span>
-          <h3>BioBridge — Biomedical Engineering Club Website</h3>
-          <p>React-based platform for BioBridge, the cross-domain biomedical club I lead as
-          President — supporting healthcare R&amp;D initiatives on campus.</p>
-          <div class="patent-tags"><span class="tag">React</span><span class="tag">Frontend</span></div>
-        </article>
-        <article class="proj rv">
-          <span class="proj-id">Hardware</span>
-          <h3>National-Level Drone Prototype</h3>
-          <p>Designed and developed a drone prototype shortlisted for national-level competitions.</p>
-          <div class="patent-tags"><span class="tag">Robotics</span><span class="tag">Prototyping</span></div>
-        </article>
-      </div>
+      <ol class="proj-index">
+        <li class="flagship rv">
+          <span class="pi-num mono">P-01</span>
+          <div>
+            <h3>Automated 3D Bioprinter for Dermatology (Vitiligo)</h3>
+            <p>AI-integrated bioprinting system using CNN/U-Net architectures for skin regeneration,
+            workflow automation, and clinical decision support in vitiligo treatment.</p>
+          </div>
+          <span class="pi-tags mono">Patented ×4 · CNN / U-Net<br>₹17 Cr Valuation</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-02</span>
+          <div>
+            <h3>AI Radiological Assessment Platform</h3>
+            <p>AI-powered healthcare platform for early disease detection and diagnostic assistance
+            from radiological imaging.</p>
+          </div>
+          <span class="pi-tags mono">Copyright · Medical Imaging<br>Deep Learning</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-03</span>
+          <div>
+            <h3>Machine Learning for Space Applications</h3>
+            <p>Built predictive machine-learning models for space applications as Team Leader of
+            Team Vidyut in the national-level ISRO STRC 2026 challenge.</p>
+          </div>
+          <span class="pi-tags mono">ISRO STRC 2026 · Team Vidyut<br>Predictive ML</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-04</span>
+          <div>
+            <h3>AI-Based Facial Recognition &amp; Augmentation System</h3>
+            <p>CNN-based models for facial recognition, augmentation analysis, and treatment-oriented
+            diagnostic applications.</p>
+          </div>
+          <span class="pi-tags mono">Patent Published · CNN<br>Computer Vision</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-05</span>
+          <div>
+            <h3>3D Bioprinting Web Application</h3>
+            <p>AI-assisted web application for print-path planning, imaging, and printer parameter
+            configuration.</p>
+          </div>
+          <span class="pi-tags mono">React · Node.js · REST APIs</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-06</span>
+          <div>
+            <h3>BioBridge — Biomedical Engineering Club Website</h3>
+            <p>React-based platform for BioBridge, the cross-domain biomedical club I lead as
+            President — supporting healthcare R&amp;D initiatives on campus.</p>
+          </div>
+          <span class="pi-tags mono">React · Frontend</span>
+        </li>
+        <li class="rv">
+          <span class="pi-num mono">P-07</span>
+          <div>
+            <h3>National-Level Drone Prototype</h3>
+            <p>Designed and developed a drone prototype shortlisted for national-level competitions.</p>
+          </div>
+          <span class="pi-tags mono">Robotics · Prototyping</span>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -961,8 +1066,8 @@
   <section id="leadership">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Leadership &amp; Experience</span>
-        <h2>Leading teams, events, and communities</h2>
+        <span class="sec-eyebrow">File 05 · Leadership Log</span>
+        <h2>Leading teams, events, and <em>communities</em></h2>
       </div>
       <div class="ev-strip rv">
         <p class="cert-track">10+ events organized till date</p>
@@ -1029,8 +1134,8 @@
   <section id="awards" class="sec-alt">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Awards &amp; Recognitions</span>
-        <h2>National and international honors</h2>
+        <span class="sec-eyebrow">File 06 · Honors — 11 Citations</span>
+        <h2>National and international <em>honors</em></h2>
       </div>
       <div class="award-grid">
         <div class="award rv"><div><b>Dr. A.P.J. Abdul Kalam National Star Award</b><span>Research Excellence</span></div></div>
@@ -1052,8 +1157,8 @@
   <section id="grants">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Grants &amp; Fellowships</span>
-        <h2>Government-funded research</h2>
+        <span class="sec-eyebrow">File 07 · Funding &amp; Fellowships</span>
+        <h2>Government-funded <em>research</em></h2>
       </div>
       <div class="grant-grid">
         <div class="grant rv">
@@ -1091,8 +1196,8 @@
   <section id="skills" class="sec-alt">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Technical Skills</span>
-        <h2>Tools of the trade</h2>
+        <span class="sec-eyebrow">File 08 · Toolkit</span>
+        <h2>Tools of the <em>trade</em></h2>
       </div>
       <div class="skill-cols">
         <div class="skill-group rv">
@@ -1148,8 +1253,8 @@
   <section id="languages">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Languages</span>
-        <h2>Communicating across six languages</h2>
+        <span class="sec-eyebrow">File 09 · Languages — 6 Spoken</span>
+        <h2>Communicating across six <em>languages</em></h2>
       </div>
       <div class="lang-grid">
         <div class="lang-card native rv">
@@ -1190,8 +1295,8 @@
   <section id="certs">
     <div class="wrap">
       <div class="sec-head rv">
-        <span class="sec-eyebrow">Certifications &amp; Courses</span>
-        <h2>35+ certifications across AI, cloud, data &amp; security</h2>
+        <span class="sec-eyebrow">File 10 · Certifications — 36+</span>
+        <h2>35+ <em>certifications</em> across AI, cloud, data &amp; security</h2>
       </div>
       <div class="cert-grid">
         <article class="cert-card rv">
@@ -1291,12 +1396,20 @@
     </div>
   </section>
 
+
+  <!-- ECG divider -->
+  <div class="ecg" aria-hidden="true">
+    <svg viewBox="0 0 900 48" preserveAspectRatio="none">
+      <path d="M0 24 H300 L316 24 326 13 338 35 348 24 H520 L534 24 542 18 550 24 H700 L712 24 722 8 736 40 748 24 H900" />
+    </svg>
+  </div>
+
   <!-- ================= CONTACT ================= -->
   <section id="contact" class="contact">
     <div class="wrap">
       <div class="contact-grid">
         <div class="rv">
-          <span class="sec-eyebrow">Contact</span>
+          <span class="sec-eyebrow">File 11 · Contact</span>
           <h2>Let's build something that <em>matters</em>.</h2>
           <p class="contact-lede">
             Open to research collaborations, healthcare innovation projects, speaking
@@ -1322,6 +1435,7 @@
 
 <footer>
   <span>© 2026 Omkar Deshmukh</span>
+  <span class="barcode" aria-hidden="true"></span>
   <a href="https://omkar928.github.io/Deshmukh-Omkar-Resume/Omkar-Deshmukh-CV.pdf"
      download="Omkar-Deshmukh-CV.pdf" class="mono" style="color: inherit;">Download CV &#8595;</a>
   <span class="mono">AI × Healthcare × Robotics</span>
